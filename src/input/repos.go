@@ -1,0 +1,71 @@
+package input
+
+import (
+	"bufio"
+	"context"
+	"database/sql"
+	"fmt"
+	"log"
+	"os"
+	"strings"
+
+	"codehub/src/database"
+	u "codehub/src/utility"
+
+	"github.com/google/go-github/v50/github"
+)
+
+func GetGithub(username string, db *sql.DB) {
+	r := bufio.NewReader(os.Stdin)
+	client := github.NewClient(nil)
+
+	// Ustawienia dla paginacji
+	opts := &github.RepositoryListOptions{
+		Type: "public",
+		ListOptions: github.ListOptions{
+			Page:    1,  // Początkowa strona
+			PerPage: 30, // Liczba repozytoriów na stronie (maks. 100)
+		},
+	}
+
+	for {
+		repos, _, err := client.Repositories.List(context.Background(), username, opts)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if len(repos) == 0 {
+			fmt.Println("No repositories found.")
+			return
+		}
+
+		for _, repo := range repos {
+			fmt.Printf("%s (%s)\n", *repo.Name, *repo.HTMLURL)
+			fmt.Printf("Category: ")
+			Category := u.Read(r)
+
+			fmt.Printf("Technologies (separate with space): ")
+			tech := u.Read(r)
+
+			Technologies := strings.Split(tech, " ")
+
+			p := database.Project{ID: 1, Name: *repo.Name, Category: Category, Url: *repo.HTMLURL, Technologies: Technologies}
+
+			CreateProject(p, db)
+
+			// Czyszczenie 3 linii w terminalu
+			for i := 0; i < 3; i++ {
+				fmt.Print("\033[A")
+				fmt.Print("\033[K")
+			}
+		}
+
+		// Sprawdzamy, czy są kolejne strony
+		if len(repos) < opts.PerPage {
+			break // Jeśli liczba repozytoriów jest mniejsza niż PerPage, to ostatnia strona
+		}
+
+		// Przechodzimy do następnej strony
+		opts.Page++
+	}
+}

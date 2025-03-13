@@ -36,6 +36,5 @@ func AddProject(project db.Project, db *sql.DB) error {
 		return fmt.Errorf("failed to add project: %v", err)
 	}
 
-	fmt.Println("Project added to database.")
 	return nil
 }

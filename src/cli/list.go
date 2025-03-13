@@ -6,28 +6,25 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/olekukonko/tablewriter"
 )
 
-func List(db *sql.DB) {
-	proj, _ := out.GetProjects(db)
-
-	fmt.Println()
-	PrintProjects(proj)
-	fmt.Println()
-
+func SortProjectsByCategory(projects []db.Project) {
+	sort.Slice(projects, func(i, j int) bool {
+		return projects[i].Category < projects[j].Category
+	})
 }
 
 func PrintProjects(projects []db.Project) {
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "Name", "Category", "URL", "Technologies"})
+	table.SetHeader([]string{"Name", "Category", "URL", "Technologies"})
 
 	for _, p := range projects {
 		tech := strings.Join(p.Technologies, ", ")
 		table.Append([]string{
-			fmt.Sprintf("%-6d", p.ID),
 			fmt.Sprintf("%-20s", p.Name),
 			fmt.Sprintf("%-20s", p.Category),
 			fmt.Sprintf("%-40s", p.Url),
@@ -42,4 +39,14 @@ func PrintProjects(projects []db.Project) {
 	// table.SetRowSeparator("")  // Brak separatorów wierszy
 	// table.SetHeaderLine(false) // Brak linii pod nagłówkiem
 	table.Render()
+}
+
+func List(db *sql.DB) {
+	proj, _ := out.GetProjects(db)
+	SortProjectsByCategory(proj)
+
+	fmt.Println()
+	PrintProjects(proj)
+	fmt.Println()
+
 }

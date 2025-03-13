@@ -9,15 +9,8 @@ import (
 
 	database "codehub/src/database"
 	in "codehub/src/input"
+	u "codehub/src/utility"
 )
-
-func Read(reader *bufio.Reader) string {
-
-	v, _ := reader.ReadString('\n')
-	v = strings.TrimSpace(v)
-
-	return v
-}
 
 func Add(db *sql.DB) {
 	r := bufio.NewReader(os.Stdin)
@@ -25,16 +18,16 @@ func Add(db *sql.DB) {
 	Hi()
 
 	fmt.Printf("Project name: ")
-	Name := Read(r)
+	Name := u.Read(r)
 
 	fmt.Printf("Category: ")
-	Category := Read(r)
+	Category := u.Read(r)
 
 	fmt.Printf("URL to github: ")
-	Url := Read(r)
+	Url := u.Read(r)
 
 	fmt.Printf("Technologies (separate with space): ")
-	tech := Read(r)
+	tech := u.Read(r)
 
 	Technologies := strings.Split(tech, " ")
 
@@ -42,4 +35,17 @@ func Add(db *sql.DB) {
 
 	in.CreateProject(p, db)
 
+}
+
+func GetGithub(db *sql.DB) {
+	r := bufio.NewReader(os.Stdin)
+
+	Hi()
+
+	fmt.Printf("Github name: https://github.com/")
+	username := u.Read(r)
+
+	fmt.Println()
+
+	in.GetGithub(username, db)
 }

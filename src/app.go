@@ -32,6 +32,8 @@ func Init() {
 		cli.Help(args[1:])
 	case "add":
 		cli.Add(db)
+	case "get-github":
+		cli.GetGithub(db)
 	case "list":
 		cli.List(db)
 	default:
