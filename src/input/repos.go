@@ -19,12 +19,11 @@ func GetGithub(username string, db *sql.DB) {
 	r := bufio.NewReader(os.Stdin)
 	client := github.NewClient(nil)
 
-	// Ustawienia dla paginacji
 	opts := &github.RepositoryListOptions{
 		Type: "public",
 		ListOptions: github.ListOptions{
-			Page:    1,  // Początkowa strona
-			PerPage: 30, // Liczba repozytoriów na stronie (maks. 100)
+			Page:    1,
+			PerPage: 1000,
 		},
 	}
 
@@ -53,19 +52,16 @@ func GetGithub(username string, db *sql.DB) {
 
 			CreateProject(p, db)
 
-			// Czyszczenie 3 linii w terminalu
 			for i := 0; i < 3; i++ {
 				fmt.Print("\033[A")
 				fmt.Print("\033[K")
 			}
 		}
 
-		// Sprawdzamy, czy są kolejne strony
 		if len(repos) < opts.PerPage {
-			break // Jeśli liczba repozytoriów jest mniejsza niż PerPage, to ostatnia strona
+			break
 		}
 
-		// Przechodzimy do następnej strony
 		opts.Page++
 	}
 }

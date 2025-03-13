@@ -42,7 +42,7 @@ func GetGithub(db *sql.DB) {
 
 	Hi()
 
-	fmt.Printf("Github name: https://github.com/")
+	fmt.Printf("Github URL: https://github.com/")
 	username := u.Read(r)
 
 	fmt.Println()
