@@ -70,17 +70,17 @@ func GetHeader(p Readme) string {
 func GetProjects(p []database.Project, c map[string]string) string {
 	t := ""
 
-	t += `<h2 align="center" style="font-family: 'Arial', sans-serif; color: #333;">❤️ Projects</h2>` + "\n"
+	t += `<h2 align="center">🛠️ Projects</h2>` + "\n"
 
 	for cat, desc := range c {
-		t += fmt.Sprintf("<h3 style=\"color: #0366d6; font-family: 'Arial', sans-serif;\">%s</h3>\n", cat)
+		t += fmt.Sprintf("<h3>%s</h3>\n", cat)
 		if desc != "" && desc != " " {
-			t += fmt.Sprintf("<p style=\"color: #444; font-family: 'Arial', sans-serif;\">%s</p>\n", desc)
+			t += fmt.Sprintf("<p>%s</p>\n", desc)
 		}
 
 		for _, project := range p {
 			if project.Category == cat {
-				t += fmt.Sprintf("<p style=\"margin: 8px 0; font-size: 16px; line-height: 1.6; font-family: 'Arial', sans-serif;\"> <a href=\"%s\" style=\"text-decoration: none; color: #00647D; font-weight: bold;\">%s</a>: %s</p>\n", project.Url, project.Name, strings.Join(project.Technologies, ", "))
+				t += fmt.Sprintf(`<p style=\"margin: 8px 0; font-size: 16px; line-height: 1.6;\"> <a href=\"%s\" style=\"text-decoration: none; color: #00647D; font-weight: bold;\"><img align="center" src="%s/public/readme_icon.png" alt="%s" height="20" width="20" style="border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" />%s</a> - %s: %s</p>\n`, project.Url, project.Url, project.Name, project.Name, output.GetRepoDescription(project.Url), strings.Join(project.Technologies, ", "))
 			}
 		}
 	}
