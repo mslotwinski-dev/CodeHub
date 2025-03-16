@@ -9,6 +9,7 @@ import (
 
 	database "codehub/src/database"
 	in "codehub/src/input"
+	"codehub/src/output"
 	u "codehub/src/utility"
 )
 
@@ -20,8 +21,12 @@ func Add(db *sql.DB) {
 	fmt.Printf("Project name: ")
 	Name := u.Read(r)
 
-	fmt.Printf("Category: ")
+	fmt.Printf(`Category: (empty means "Other")`)
 	Category := u.Read(r)
+
+	if Category == "" || Category == " " {
+		Category = "Other"
+	}
 
 	fmt.Printf("URL to github: ")
 	Url := u.Read(r)
@@ -48,4 +53,18 @@ func GetGithub(db *sql.DB) {
 	fmt.Println()
 
 	in.GetGithub(username, db)
+
+	fmt.Println("Should i also take repos from your organizations?")
+	fmt.Printf("Type Y if yes. ")
+	Hmm := u.Read(r)
+
+	if Hmm != "Y" {
+		return
+	}
+
+	orgs := output.GetGithubOrgs(username)
+
+	for _, org := range orgs {
+		in.GetGithub(*org.Login, db)
+	}
 }

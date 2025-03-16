@@ -36,6 +36,8 @@ func Init() {
 		cli.GetGithub(db)
 	case "list":
 		cli.List(db)
+	case "generate":
+		cli.Generate(db)
 	default:
 		out.Error("Invalid command")
 		cli.Usage()
