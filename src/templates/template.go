@@ -80,7 +80,7 @@ func GetProjects(p []database.Project, c map[string]string) string {
 
 		for _, project := range p {
 			if project.Category == cat {
-				t += fmt.Sprintf(`<p style=\"margin: 8px 0; font-size: 16px; line-height: 1.6;\"> <a href=\"%s\" style=\"text-decoration: none; color: #00647D; font-weight: bold;\"><img align="center" src="%s/public/readme_icon.png" alt="%s" height="20" width="20" style="border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" />%s</a> - %s: %s</p>\n`, project.Url, project.Url, project.Name, project.Name, output.GetRepoDescription(project.Url), strings.Join(project.Technologies, ", "))
+				t += fmt.Sprintf(`<p style=\"margin: 8px 0; font-size: 16px; line-height: 1.6;\"> <a href=\"%s\" style=\"text-decoration: none; color: #00647D; font-weight: bold;\"><img align="center" src="%s/blob/main/public/readme_icon.png?raw=true" alt="%s" height="35" width="35" style="margin-right:10px;border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" />%s</a> - %s - %s</p>`+"\n", project.Url, project.Url, project.Name, project.Name, output.GetRepoDescription(project.Url), strings.Join(project.Technologies, ", "))
 			}
 		}
 	}

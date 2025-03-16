@@ -19,8 +19,16 @@ func GetGithub(username string, db *sql.DB) {
 
 	for _, repo := range repos {
 		fmt.Printf("%s (%s)\n", *repo.Name, *repo.HTMLURL)
-		fmt.Printf("Category: ")
+		fmt.Printf(`Category (leave empty to skip): `)
 		Category := u.Read(r)
+
+		if Category == "" || Category == " " {
+			for i := 0; i < 2; i++ {
+				fmt.Print("\033[A")
+				fmt.Print("\033[K")
+			}
+			continue
+		}
 
 		fmt.Printf("Technologies (separate with space): ")
 

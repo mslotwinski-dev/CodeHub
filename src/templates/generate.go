@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 )
 
 func GetCategories(projects []database.Project) map[string]string {
@@ -23,7 +24,18 @@ func GetCategories(projects []database.Project) map[string]string {
 		}
 	}
 
-	return C
+	var sortedCategories []string
+	for category := range C {
+		sortedCategories = append(sortedCategories, category)
+	}
+	sort.Strings(sortedCategories)
+
+	result := make(map[string]string)
+	for _, category := range sortedCategories {
+		result[category] = C[category]
+	}
+
+	return result
 }
 
 func Generate(db *sql.DB, params Readme) {

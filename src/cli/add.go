@@ -21,7 +21,7 @@ func Add(db *sql.DB) {
 	fmt.Printf("Project name: ")
 	Name := u.Read(r)
 
-	fmt.Printf(`Category: (empty means "Other")`)
+	fmt.Printf(`Category (empty means "Other"): `)
 	Category := u.Read(r)
 
 	if Category == "" || Category == " " {
