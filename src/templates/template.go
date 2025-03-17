@@ -45,7 +45,7 @@ func GetHeader(p Readme) string {
 	t += fmt.Sprintf(`❤️ **My favorite technology is:** *%s* 🚀<br/>`, p.FavTechnology)
 	t += fmt.Sprintf(`🎯 **I'm interested in:** *%s*<br/>`, p.IntrestedIn)
 	t += fmt.Sprintf(`📚 **Currently learning:** *%s* 💡<br/>`, p.Learning)
-	t += fmt.Sprintf(`🎮 **After hours I'm:** *%s* 😎<br/>`, p.AfterHours)
+	t += fmt.Sprintf(`🎮 **After hours I:** *%s* 😎<br/>`, p.AfterHours)
 	t += fmt.Sprintf(`💻 **Check out my projects on:** <a href="%s" style="color: #0366d6; font-weight: bold;">%s</a> 🌐<br/>`, p.Projects, p.Projects)
 	t += fmt.Sprintf(`📬 **Reach me on:** *%s* ✉️<br/>`, p.ReachMe)
 	t += "</p>\n"
@@ -91,6 +91,7 @@ func GetProjects(p []database.Project, c map[string]string) string {
 func GetFooter() string {
 	t := ""
 
+	t += `<p align="center" style="font-size: 14px; color: #555;">Generated with ❤️ by <a href="https://github.com/mslotwinski-dev/CodeHub" style="color: #00647D; font-weight: bold; text-decoration: none;" target="_blank">CodeHub</a></p>`
 	t += `<p align="center"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&duration=4000&pause=1000&color=FFA500&width=435&lines=Thanks+for+visiting!+Come+back+soon!" alt="thanks"></p>`
 	return t
 }
